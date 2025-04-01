@@ -1,0 +1,8 @@
+[package]
+name = "rust-zero-to-production"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = "4.10.2"
+tokio = { version = "1.44.1", features = ["macros", "rt-multi-thread"] }
