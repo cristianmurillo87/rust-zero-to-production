@@ -1,6 +1,5 @@
-use std::net::TcpListener;
-
 use rust_zero_to_production::run;
+use std::net::TcpListener;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
