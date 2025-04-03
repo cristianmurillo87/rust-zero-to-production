@@ -30,6 +30,7 @@ done
 
 export PG_PASSWORD="${DB_PASSWORD}"
 export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@127.0.0.1:${DB_PORT}/${DB_NAME}
+export RUST_LOG=trace
 
 sqlx database create
 sqlx migrate run
