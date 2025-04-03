@@ -1,26 +1,19 @@
-use actix_web::{dev::Server, web, App, HttpResponse, HttpServer};
+pub mod configuration;
+pub mod routes;
+pub mod startup;
+
+use actix_web::{dev::Server, web, App, HttpServer};
+use routes::{check_health, subscribe_to_newsletter};
+use sqlx::PgPool;
 use std::net::TcpListener;
 
-#[derive(serde::Deserialize)]
-struct FormData {
-    email: String,
-    name: String,
-}
-
-async fn check_health() -> HttpResponse {
-    HttpResponse::Ok().finish()
-}
-
-// web::Form<T> extract urls encoded form data
-async fn subcribe_to_newsletter(_form: web::Form<FormData>) -> HttpResponse {
-    HttpResponse::Ok().finish()
-}
-
-pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
-    let server = HttpServer::new(|| {
+pub fn run(listener: TcpListener, connection_pool: PgPool) -> Result<Server, std::io::Error> {
+    let db_pool = web::Data::new(connection_pool);
+    let server = HttpServer::new(move || {
         App::new()
             .route("/health_check", web::get().to(check_health))
-            .route("/subscriptions", web::post().to(subcribe_to_newsletter))
+            .route("/subscriptions", web::post().to(subscribe_to_newsletter))
+            .app_data(db_pool.clone())
     })
     .listen(listener)?
     .run();

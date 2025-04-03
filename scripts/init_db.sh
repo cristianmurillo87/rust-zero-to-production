@@ -33,3 +33,4 @@ export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@127.0.0.1:${DB_PORT}/${
 
 sqlx database create
 sqlx migrate run
+cargo sqlx prepare
