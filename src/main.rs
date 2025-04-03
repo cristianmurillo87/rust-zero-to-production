@@ -1,5 +1,5 @@
 use rust_zero_to_production::{configuration::get_configuration, run};
-use sqlx::{Connection, PgConnection, PgPool};
+use sqlx::PgPool;
 use std::net::TcpListener;
 
 #[tokio::main]

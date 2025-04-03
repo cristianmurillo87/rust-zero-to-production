@@ -1,5 +1,4 @@
 use chrono::Utc;
-use std::ops::Deref;
 use uuid::Uuid;
 
 use actix_web::{web, HttpResponse};
@@ -14,7 +13,7 @@ pub struct FormData {
 // web::Form<T> extract urls encoded form data
 pub async fn subscribe_to_newsletter(
     form: web::Form<FormData>,
-    connection_pool: web::Form<PgPool>,
+    connection_pool: web::Data<PgPool>,
 ) -> HttpResponse {
     match sqlx::query!(
         r#"INSERT INTO subscriptions(id, email, name, subscribed_at) VALUES ($1, $2, $3, $4)"#,
@@ -23,7 +22,7 @@ pub async fn subscribe_to_newsletter(
         form.name,
         Utc::now()
     )
-    .execute(connection_pool.deref())
+    .execute(connection_pool.get_ref())
     .await
     {
         Ok(_) => HttpResponse::Ok().finish(),

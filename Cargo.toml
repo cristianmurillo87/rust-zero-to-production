@@ -15,7 +15,8 @@ uuid = { version = "1.16.0", features = ["v4"] }
 version = "0.8.3"
 default-features = false
 features = [
-    "runtime-tokio-rustls",
+    "runtime-tokio",
+    "tls-native-tls",
     "macros",
     "postgres",
     "uuid",
