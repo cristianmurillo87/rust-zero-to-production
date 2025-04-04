@@ -17,7 +17,7 @@ async fn spawn_test_app() -> TestApp {
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
     let port = listener.local_addr().unwrap().port();
     let address = format!("http://127.0.0.1:{}", port);
-    let server = rust_zero_to_production::run(listener, connection_pool.clone())
+    let server = rust_zero_to_production::startup::run(listener, connection_pool.clone())
         .expect("Failed to bind address");
 
     let _ = tokio::spawn(server);
