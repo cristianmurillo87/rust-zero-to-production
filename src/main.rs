@@ -3,8 +3,7 @@ use rust_zero_to_production::{
     startup::run,
     telemetry::{get_subscriber, init_subscriber},
 };
-use secrecy::ExposeSecret;
-use sqlx::PgPool;
+use sqlx::postgres::PgPoolOptions;
 use std::net::TcpListener;
 
 #[tokio::main]
@@ -22,9 +21,9 @@ async fn main() -> std::io::Result<()> {
         configuration.application.host, configuration.application.port
     );
 
-    let db_connection_string = configuration.database.connection_string();
-    let connection_pool = PgPool::connect_lazy(&db_connection_string.expose_secret())
-        .expect("Failed to connect to Postgres");
+    let connection_pool = PgPoolOptions::new()
+        .idle_timeout(std::time::Duration::from_secs(2))
+        .connect_lazy_with(configuration.database.with_db());
 
     let listener = TcpListener::bind(&address)?;
     let _ = run(listener, connection_pool)?.await;
