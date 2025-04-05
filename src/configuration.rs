@@ -97,6 +97,11 @@ pub fn get_configuration() -> Result<Settings, ConfigError> {
     let settings = Config::builder()
         .add_source(base_config_file)
         .add_source(config_file)
+        // add settings from environment variables
+        // in this case the prefix for such variables should have the prefix APP_ and the value to be set
+        // in the configuration file should be prefixed by double underscores (__)
+        // e.g. APP_APPLICATION__PORT=8000 would set the Settings.application.port configuration
+        .add_source(config::Environment::with_prefix("app").separator("__"))
         .build()
         .unwrap();
 
