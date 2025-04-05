@@ -81,7 +81,7 @@ impl TryFrom<String> for Environment {
 
 pub fn get_configuration() -> Result<Settings, ConfigError> {
     let base_path = std::env::current_dir().expect("Failed to determine the current directory");
-    let configuration_directory = base_path.join("configuration");
+    let configuration_directory = base_path.join("config");
 
     let base_config_file_path = configuration_directory.join("base");
     let base_config_file = config::File::from(base_config_file_path).required(true);
