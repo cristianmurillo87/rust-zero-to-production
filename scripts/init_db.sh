@@ -34,4 +34,6 @@ export RUST_LOG=trace
 
 sqlx database create
 sqlx migrate run
-cargo sqlx prepare
+cargo sqlx prepare --workspace
+cargo sqlx prepare --check --workspace
+cargo sqlx prepare -- --lib
