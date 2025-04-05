@@ -17,7 +17,7 @@ ENV SQLX_OFFLINE=true
 RUN cargo build --release --bin rust_zero_to_production
 
 # run stage
-FROM rust:1.84.1-slim-bullseye AS runtime
+FROM rust:1.84.1-slim-bookworm AS runtime
 WORKDIR /app
 
 RUN apt-get update -y \
